@@ -103,16 +103,14 @@ class App:
         respuesta = estudiante1.insertar()
         self.respuesta_sql (respuesta)
         del estudiante1
-        self.borrarpantalla()
-        self.menu_acciones_view()
+        self.insertar_view()
 
 
     def eliminar_controller(self):
         id = self.id.get()
         respuesta = estudiantes.Estudiantes.eliminar(id)
         self.respuesta_sql(respuesta)
-        self.borrarpantalla()
-        self.menu_acciones_view()
+        self.eliminar_view()
 
 
     
@@ -143,8 +141,7 @@ class App:
         respuesta = estudiante1.actualizar(id)
         self.respuesta_sql(respuesta)
         del estudiante1
-        self.borrarpantalla()
-        self.menu_acciones_view()
+        self.modificar_view()
 
 if __name__ == "__main__":
     ventana=Tk()

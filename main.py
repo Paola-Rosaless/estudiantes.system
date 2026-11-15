@@ -60,7 +60,14 @@ class App:
         self.id.focus() 
         self.id.pack(pady=5)
 
-        Button(self.ventana,text="Eliminar",command=self.eliminar_controller).pack(pady=10)
+        #RESULTADO DE LA BUSQUEDA
+        self.resultado_busqueda=Label(self.ventana,text="")
+        self.resultado_busqueda.pack(pady=5)
+
+        #BUSCAR, ELIMINAR Y REGRESAR
+        Button(self.ventana,text="Buscar",command=self.buscar_controller).pack(pady=10)
+        self.btn_eliminar=Button(self.ventana,text="Eliminar",state="disabled",command=self.eliminar_controller)
+        self.btn_eliminar.pack(pady=10)
         Button(self.ventana,text="Regresar",command=self.menu_acciones_view).pack(pady=10)  
 
     def modificar_view(self):
@@ -106,8 +113,23 @@ class App:
         self.insertar_view()
 
 
+    def buscar_controller(self):
+        id = self.id.get()
+        registros = estudiantes.Estudiantes.buscar(id)
+        if len(registros) > 0:
+            estudiante = registros[0]
+            self.resultado_busqueda.config(text=f"ID: {estudiante[0]}  Nombre: {estudiante[1]}  Nota: {estudiante[2]}")
+            self.btn_eliminar.config(state="normal")
+        else:
+            self.resultado_busqueda.config(text="... ¡No se encontro un estudiante con ese ID ...!")
+            self.btn_eliminar.config(state="disabled")
+
+
     def eliminar_controller(self):
         id = self.id.get()
+        confirmacion = messagebox.askyesno(title="... Confirmar eliminacion ...", message=f"¿Deseas eliminar el estudiante con ID {id}?")
+        if not confirmacion:
+            return
         respuesta = estudiantes.Estudiantes.eliminar(id)
         self.respuesta_sql(respuesta)
         self.eliminar_view()

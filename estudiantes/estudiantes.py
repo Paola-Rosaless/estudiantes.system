@@ -60,3 +60,12 @@ class Estudiantes:
             conexion.rollback()
             print(f"Error al actualizar: {e}")
             return False
+
+    @staticmethod
+    def buscar(id):
+        try:
+            cursor.execute("SELECT * FROM estudiantes WHERE id = %s", (id,))
+            return cursor.fetchall()
+        except Exception as e:
+            print(f"Error al buscar: {e}")
+            return []
